@@ -20,7 +20,7 @@ namespace Data.Util
         {
             byte[] keyArray;
             byte[] toEncryptArray = UTF8Encoding.UTF8.GetBytes(toEncrypt);
-            string key = "UHSTool";
+            string key = "Pracctice";
             if (useHashing)
             {
                 MD5CryptoServiceProvider hashmd5 = new MD5CryptoServiceProvider();
