@@ -15,20 +15,24 @@ namespace Data.Repositories
 {
     public class LoginRepository : Repository<UT_Admin_User>, ILoginRepository
     {
+        UHSUtil _Util = new UHSUtil();
         private readonly UHSToolDBContext _dbContext;
         public LoginRepository(UHSToolDBContext dbContext) : base(dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<object> GetUser(UT_Admin_User loginUser)
+        //public LoginDto MapSP_Ut_admin_getuserdetails(IList<SP_Ut_admin_getuserdetails> UserDetails)
+        //{
+        //    return _mapper.Map<IList<SP_Ut_admin_getuserdetails>, LoginDto>(UserDetails);
+        //}
+        public async Task<IList<SP_Ut_admin_getuserdetails>> GetUser(UT_Admin_User request)
         {
-            UHSUtil _Util = new UHSUtil();
-            //return await _dbContext.UT_Admin_User
-            //                        .Where(db => db.vc_password == _Util.EncryptString(loginUser.vc_password) && db.vc_username == loginUser.vc_username.ToUpper())
-            //                        .FirstOrDefaultAsync();
 
-            
+            var UserDetails = _dbContext.__SP_Ut_admin_getuserdetails
+                                             .FromSqlRaw("Ut_admin_getuserdetails {0}, {1}",
+                                                 request.vc_username.ToUpper().ToString(),
+                             _Util.EncryptString(request.vc_password).ToString()).ToList();
 
             ////LINQ Query 
 
@@ -54,11 +58,11 @@ namespace Data.Repositories
             //               t1.vc_email,
             //               t3.vc_roledesc
             //           };
-
-            //var result = GetDynamicResult(" exec Ut_admin_getuserdetails @vc_username, @vc_password ", new SqlParameter("@vc_username", loginUser.vc_username.ToUpper()), new SqlParameter("@vc_password", _Util.EncryptString(loginUser.vc_password)));
-
-            object user1 =null;
-            return user1;
+            
+            return await Task.Run(() =>
+            {
+               return UserDetails;
+            });
         }
 
         public void GetResetPwd(UT_Admin_User loginUser)
@@ -68,61 +72,6 @@ namespace Data.Repositories
             //                        .Update(loginUser);
         }
 
-        //Dynamically get data
-        public IEnumerable<dynamic> GetDynamicResult(string commandText, params SqlParameter[] parameters)
-        {
-            // Get the connection from DbContext
-            var connection = _dbContext.Database.GetDbConnection();
-
-            // Open the connection if isn't open
-            if (connection.State != System.Data.ConnectionState.Open)
-                connection.Open();
-
-            using (var command = connection.CreateCommand())
-            {
-                command.CommandText = commandText;
-                command.Connection = connection;
-
-                if (parameters?.Length > 0)
-                {
-                    foreach (var parameter in parameters)
-                    {
-                        command.Parameters.Add(parameter);
-                    }
-                }
-
-                using (var dataReader = command.ExecuteReader())
-                {
-                    // List for column names
-                    var names = new List<string>();
-
-                    if (dataReader.HasRows)
-                    {
-                        // Add column names to list
-                        for (var i = 0; i < dataReader.VisibleFieldCount; i++)
-                        {
-                            names.Add(dataReader.GetName(i));
-                        }
-
-                        while (dataReader.Read())
-                        {
-                            // Create the dynamic result for each row
-                            var result = new ExpandoObject() as IDictionary<string, object>;
-
-                            foreach (var name in names)
-                            {
-                                // Add key-value pair
-                                // key = column name
-                                // value = column value
-                                result.Add(name, dataReader[name]);
-                            }
-
-                            yield return result;
-                        }
-                    }
-                }
-            }
-        }
 
     }
 }

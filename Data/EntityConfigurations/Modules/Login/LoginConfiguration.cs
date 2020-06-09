@@ -36,7 +36,6 @@ namespace Data.EntityConfigurations.Modules.Login
 
             builder.Property(b => b.b_isdeleted).HasColumnName("b_isdeleted").IsRequired();
 
-            builder.Property(b => b.b_timeout).HasColumnName("b_timeout").IsRequired();
         }
     }
 }
