@@ -65,7 +65,7 @@ namespace WebAPIs
             // /swagger/v1.0/swagger.json
             var config = new AutoMapper.MapperConfiguration(c =>
             {
-                c.AddProfile(new MappingProfile());
+                c.AddProfile(new ApplicationProfile());
             });
             var mapper = config.CreateMapper();
             services.AddSingleton(mapper);
@@ -74,6 +74,10 @@ namespace WebAPIs
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(options =>
+            options.WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

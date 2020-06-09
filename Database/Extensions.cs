@@ -27,7 +27,7 @@ namespace Database
         /// <summary>
         ///     Auto find and apply all IEntityTypeConfiguration to modelBuilder
         /// </summary>
-        public static void ApplyAllConfigurations<TDbContext>(this ModelBuilder modelBuilder)
+        public static void ApplyConfigurations<TDbContext>(this ModelBuilder modelBuilder)
             where TDbContext : DbContext
         {
             var applyConfigurationMethodInfo = modelBuilder

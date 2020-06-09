@@ -14,7 +14,8 @@ namespace Database.Entities.Modules.Login
         public String vc_name { get; set; }
         public String vc_email { get; set; }
         public Boolean b_isreset { get; set; }
-        public Int32 b_timeout { get; set; }
+
+        public IList<UT_Admin_Role> _UT_Admin_Role { get; set; }
 
     }
 }

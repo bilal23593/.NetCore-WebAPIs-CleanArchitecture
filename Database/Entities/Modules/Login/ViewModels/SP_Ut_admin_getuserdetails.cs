@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Database.Entities.Modules.Login.ViewModels
 {
-    public class VM_UserRole    
+    public class SP_Ut_admin_getuserdetails
     {
         public Int64 pki_user_id { get; set; }
         public Int64 pki_role_id { get; set; }

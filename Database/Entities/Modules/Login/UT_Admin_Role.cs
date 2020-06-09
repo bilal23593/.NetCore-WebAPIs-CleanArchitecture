@@ -13,7 +13,9 @@ namespace Database.Entities.Modules.Login
         public String vc_roledesc { get; set; }
         public String vc_type { get; set; }
         public Int32 i_group { get; set; }
-        
-        
+
+        public IList<UT_Admin_Menu> __UT_Admin_Menu { get; set; }
+
+
     }
 }

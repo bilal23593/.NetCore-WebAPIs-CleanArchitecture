@@ -18,12 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\Login\Commands\" />
+    <ProjectReference Include="..\Database\Database.csproj" />
+    <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Database\Database.csproj" />
-    <ProjectReference Include="..\Data\Data.csproj" />
+    <Folder Include="Modules\SuperUser\Commands\" />
   </ItemGroup>
 
 </Project>
